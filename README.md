@@ -1,6 +1,6 @@
-# loginui
+# Flutter Auth with Firebase
 
-A new Flutter project.
+A simple sign in and sign up with Firebase and Flutter
 
 ## Getting Started
 
