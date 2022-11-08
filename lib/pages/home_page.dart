@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings, sort_child_properties_last
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,37 +32,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SafeArea(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: FutureBuilder(
-                future: getDocId(),
-                builder: ((context, snapshot) {
-                  return ListView.builder(
-                    itemCount: docIds.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                          title: GetUserName(
-                        documentId: docIds[index],
-                      ));
-                    },
-                  );
-                }),
-              ),
-            ),
-            MaterialButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-              color: Colors.amber[800],
-              child: Text(
-                'Sign out',
-                style: TextStyle(
-                  color: Colors.white,
+            SizedBox(height: 25),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: FirebaseAuth.instance.signOut,
+                  child: Icon(Icons.logout, size: 20),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(10),
+                    primary: Colors.amber[800]
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
