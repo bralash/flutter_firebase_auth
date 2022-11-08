@@ -13,13 +13,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final user = FirebaseAuth.instance.currentUser!;
-
-  User? currentUser = FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
 
   List<String> docIds = [];
   Future getDocId() async {
-    await FirebaseFirestore.instance.collection('users').where('email', isEqualTo: currentUser?.email).get().then(
+    await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: user?.email)
+        .get()
+        .then(
           (snapshot) => snapshot.docs.forEach((document) {
             print(document.reference);
             docIds.add(document.reference.id);
@@ -32,9 +34,24 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Signed In as: ' + user.email!),
+            Expanded(
+              child: FutureBuilder(
+                future: getDocId(),
+                builder: ((context, snapshot) {
+                  return ListView.builder(
+                    itemCount: docIds.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                          title: GetUserName(
+                        documentId: docIds[index],
+                      ));
+                    },
+                  );
+                }),
+              ),
+            ),
             MaterialButton(
               onPressed: () {
                 FirebaseAuth.instance.signOut();
@@ -47,20 +64,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Expanded(
-                child: FutureBuilder(
-              future: getDocId(),
-              builder: ((context, snapshot) {
-                return ListView.builder(
-                  itemCount: docIds.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: GetUserName(documentId: docIds[index],)
-                    );
-                  },
-                );
-              }),
-            )),
           ],
         ),
       ),

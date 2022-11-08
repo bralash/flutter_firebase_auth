@@ -20,6 +20,7 @@ class GetUserName extends StatelessWidget {
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('First name: ${data['firstName']}'),
                 Text('Last name: ${data['lastName']}'),
