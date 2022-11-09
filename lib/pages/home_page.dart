@@ -3,7 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:loginui/read_data/get_user_name.dart';
+import '../read_data/get_user_initials.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
           (snapshot) => snapshot.docs.forEach((document) {
-            print(document.reference);
+            // print(document.reference);
             docIds.add(document.reference.id);
           }),
         );
@@ -32,23 +34,37 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: Center(
         child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: FirebaseAuth.instance.signOut,
-                  child: Icon(Icons.logout, size: 20),
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(10),
-                    primary: Colors.amber[800]
-                  ),
+            Expanded(
+              child: FutureBuilder(
+                future: getDocId(),
+                builder: ((context, snapshot) {
+                  return ListView.builder(
+                    itemCount: docIds.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                          title: GetUserName(
+                        documentId: docIds[index],
+                      ));
+                    },
+                  );
+                }),
+              ),
+            ),
+            MaterialButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
+              color: Colors.amber[800],
+              child: Text(
+                'Sign out',
+                style: TextStyle(
+                  color: Colors.white,
                 ),
-              ],
+              ),
             ),
           ],
         ),
