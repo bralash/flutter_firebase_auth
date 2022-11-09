@@ -94,12 +94,15 @@ class GetUserName extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 12, color: Colors.grey[600]),
                                   ),
-                                  Text(
-                                    'Emmanuel Asaber',
-                                    style: GoogleFonts.quicksand(
-                                      color: Colors.black87,
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.bold,
+                                  FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: Text(
+                                      '${data['firstName'] + ' ' + data['lastName']}',
+                                      style: GoogleFonts.quicksand(
+                                        color: Colors.black87,
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -146,12 +149,15 @@ class GetUserName extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 12, color: Colors.grey[600]),
                                   ),
-                                  Text(
-                                    '${data['email']}',
-                                    style: GoogleFonts.quicksand(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                                  FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: Text(
+                                      '${data['email']}',
+                                      style: GoogleFonts.quicksand(
+                                        color: Colors.black87,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   )
                                 ],
