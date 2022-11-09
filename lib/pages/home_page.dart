@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loginui/read_data/get_user_name.dart';
-import '../read_data/get_user_initials.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -34,10 +33,25 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      backgroundColor: Colors.grey[300],
+      body: SafeArea(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: FirebaseAuth.instance.signOut,
+                  child: Icon(Icons.logout, size: 15),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.amber[800],
+                    shape: CircleBorder(),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 60),
             Expanded(
               child: FutureBuilder(
                 future: getDocId(),
@@ -52,18 +66,6 @@ class _HomePageState extends State<HomePage> {
                     },
                   );
                 }),
-              ),
-            ),
-            MaterialButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-              color: Colors.amber[800],
-              child: Text(
-                'Sign out',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
               ),
             ),
           ],
