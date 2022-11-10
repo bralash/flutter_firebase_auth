@@ -8,16 +8,21 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class GetUserName extends StatelessWidget {
+class GetUserName extends StatefulWidget {
   final String documentId;
   const GetUserName({Key? key, required this.documentId}) : super(key: key);
 
+  @override
+  State<GetUserName> createState() => _GetUserNameState();
+}
+
+class _GetUserNameState extends State<GetUserName> {
   @override
   Widget build(BuildContext context) {
     CollectionReference user = FirebaseFirestore.instance.collection('users');
 
     return FutureBuilder<DocumentSnapshot>(
-        future: user.doc(documentId).get(),
+        future: user.doc(widget.documentId).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data =
@@ -138,29 +143,31 @@ class GetUserName extends StatelessWidget {
                                 size: 30,
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  Text(
-                                    'Email',
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.grey[600]),
-                                  ),
-                                  FittedBox(
-                                    fit: BoxFit.fitWidth,
-                                    child: Text(
-                                      '${data['email']}',
-                                      style: GoogleFonts.quicksand(
-                                        color: Colors.black87,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                            Flexible(
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  // ignore: prefer_const_literals_to_create_immutables
+                                  children: [
+                                    Text(
+                                      'Email',
+                                      style: TextStyle(
+                                          fontSize: 12, color: Colors.grey[600]),
                                     ),
-                                  )
-                                ],
+                                    FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: Text(
+                                        '${data['email']}',
+                                        style: GoogleFonts.quicksand(
+                                          color: Colors.black87,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ],

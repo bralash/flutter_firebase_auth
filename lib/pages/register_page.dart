@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,12 +30,20 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future signUp() async {
     if (passwordConfirmed()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Center(child: CircularProgressIndicator());
+        },
+      );
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
       addUser();
+
+      Navigator.of(context).pop();
     }
   }
 
@@ -49,7 +57,6 @@ class _RegisterPageState extends State<RegisterPage> {
       'age': int.parse(_ageController.text.trim())
     });
   }
-
 
   @override
   void dispose() {
